@@ -1,0 +1,82 @@
+name: Barberia
+
+options:
+  bundleIdPrefix: com.alexaloonsoodev
+  deploymentTarget:
+    iOS: "26.0"
+  createIntermediateGroups: true
+  developmentLanguage: es
+
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    MARKETING_VERSION: "1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    CODE_SIGN_STYLE: Automatic
+    # Put your own team here to run it on a device.
+    DEVELOPMENT_TEAM: ""
+    ENABLE_USER_SCRIPT_SANDBOXING: YES
+
+targets:
+
+  Barberia:
+    type: application
+    platform: iOS
+    sources:
+      - path: Barberia
+    settings:
+      base:
+        PRODUCT_NAME: Barberia
+        PRODUCT_BUNDLE_IDENTIFIER: com.alexaloonsoodev.Barberia
+        # iPhone only.
+        TARGETED_DEVICE_FAMILY: "1"
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+    info:
+      path: Support/Info.plist
+      properties:
+        CFBundleDisplayName: Navaja
+        CFBundleDevelopmentRegion: es
+        CFBundleShortVersionString: "$(MARKETING_VERSION)"
+        CFBundleVersion: "$(CURRENT_PROJECT_VERSION)"
+        LSRequiresIPhoneOS: true
+        ITSAppUsesNonExemptEncryption: false
+        UILaunchScreen:
+          UIColorName: LaunchBackground
+        # The whole design is dark; the system appearance never overrides it.
+        UIUserInterfaceStyle: Dark
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+        UIAppFonts:
+          - BricolageGrotesque-ExtraBold.ttf
+          - BricolageGrotesque-Bold.ttf
+
+  BarberiaTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: BarberiaTests
+    dependencies:
+      - target: Barberia
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.alexaloonsoodev.Barberia.tests
+        GENERATE_INFOPLIST_FILE: YES
+        TEST_HOST: $(BUILT_PRODUCTS_DIR)/Barberia.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Barberia
+        BUNDLE_LOADER: $(TEST_HOST)
+
+schemes:
+  Barberia:
+    build:
+      targets:
+        Barberia: all
+        BarberiaTests: [test]
+    run:
+      config: Debug
+      # Fires the "day before" reminder a few seconds after booking, so you can try it without waiting.
+      commandLineArguments:
+        "-demoReminder": true
+    test:
+      config: Debug
+      targets:
+        - BarberiaTests

@@ -1,0 +1,5 @@
+.DS_Store
+ios/*.xcodeproj
+ios/.dd/
+ios/Support/Info.plist
+xcuserdata/
